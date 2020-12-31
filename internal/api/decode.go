@@ -14,3 +14,8 @@ func DecodePostMsg(ctx context.Context, r *http.Request) (interface{}, error) {
 	json.NewDecoder(r.Body).Decode(&res)
 	return res, nil
 }
+
+// DecodeGRPCPostMsg ...
+func DecodeGRPCPostMsg(ctx context.Context, r interface{}) (interface{}, error) {
+	return models.PostMsgReq{}, nil
+}

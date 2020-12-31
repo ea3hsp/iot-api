@@ -32,7 +32,7 @@ func RunService() {
 		logger = log.NewLogfmtLogger(os.Stderr)
 		logger = log.NewSyncLogger(logger)
 		logger = log.With(logger,
-			"service", "hermes-device-api",
+			"service", cfg.ProcessName,
 			"time:", log.DefaultTimestampUTC,
 			"caller", log.DefaultCaller,
 		)
@@ -58,13 +58,13 @@ func RunService() {
 			Subsystem: "api",
 			Name:      "request_count",
 			Help:      "Number of requests received.",
-		}, []string{"method"}),
+		}, []string{"iotapi"}),
 		kitprometheus.NewSummaryFrom(stdprometheus.SummaryOpts{
 			Namespace: "device",
 			Subsystem: "api",
 			Name:      "request_latency_seconds",
 			Help:      "Total duration of requests in seconds.",
-		}, []string{"method"}),
+		}, []string{"iotapi"}),
 	)
 	// creates device endpoints
 	endpoints := api.MakeEndpoints(srv)
@@ -94,7 +94,7 @@ func RunService() {
 		// register of grpc server reflection
 		reflection.Register(gRPCServer)
 		// registers rpc services
-		pb.RegisterDeviceServiceServer(gRPCServer, grpctransport.NewGRPCServer(ctx, endpoints, logger))
+		pb.RegisterDomoServiceServer(gRPCServer, grpctransport.NewGRPCServer(ctx, endpoints, logger))
 		// start service
 		errs <- gRPCServer.Serve(listener)
 	}()

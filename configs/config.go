@@ -6,7 +6,7 @@ import (
 
 const (
 	// Default config definitions
-	defProcName     = "iot-api"
+	defProcName     = "iot-api-worker"
 	defHTTPBindAddr = "0.0.0.0:5000"
 	defGRPCBindAddr = "0.0.0.0:5010"
 

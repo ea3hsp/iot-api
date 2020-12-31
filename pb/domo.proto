@@ -6,7 +6,7 @@ package pb;
 
 // Domo Service
 service DomoService {
-    rpc PostMsg(PostMsgReq) returns (PostDomoResp){}
+    rpc PostMsg(PostMsgReq) returns (PostMsgResp){}
 }
 
 // Domo post request message
@@ -17,7 +17,7 @@ message PostMsgReq {
 }
 
 // Domo post response message
-message PostDomoResp {
+message PostMsgResp {
     string msg = 1;
     google.protobuf.Timestamp timestamp = 2;
 }
