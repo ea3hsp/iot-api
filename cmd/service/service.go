@@ -45,7 +45,7 @@ func RunService() {
 		errs <- fmt.Errorf("%s", <-c)
 	}()
 	// creates service
-	var srv api.DeviceService
+	var srv api.DomoService
 	{
 		srv = api.NewService(logger)
 	}

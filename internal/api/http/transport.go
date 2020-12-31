@@ -8,6 +8,7 @@ import (
 
 	"github.com/go-chi/chi"
 
+	"github.com/ea3hsp/iot-api/internal/api"
 	chiMiddleware "github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"
 	httptransport "github.com/go-kit/kit/transport/http"
@@ -27,7 +28,7 @@ func NewHTTPServer(ctx context.Context, endpoints api.Endpoints) http.Handler {
 	r.Use(chiMiddleware.Timeout(60 * time.Second))
 	// CORS
 	r.Use(cors.Handler(cors.Options{
-		AllowedOrigins:   []string{"*"},
+		AllowedOrigins:   []string{"iot.espin.ovh"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
 		ExposedHeaders:   []string{"Link"},
@@ -37,8 +38,8 @@ func NewHTTPServer(ctx context.Context, endpoints api.Endpoints) http.Handler {
 	// Routes
 	r.Route("/domo", func(r chi.Router) {
 		r.Post("/device", httptransport.NewServer(
-			endpoints.CreateDevice,
-			api.DecodeCreateDevice,
+			endpoints.CreatePostMsg,
+			api.DecodePostMsg,
 			encodeResponse,
 			options...,
 		).ServeHTTP)
