@@ -10,7 +10,6 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	io "io"
 	math "math"
 	math_bits "math/bits"
@@ -29,12 +28,12 @@ const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 // Domo post request message
 type PostMsgReq struct {
-	Domoid               string                 `protobuf:"bytes,1,opt,name=Domoid,proto3" json:"Domoid,omitempty"`
-	Payload              string                 `protobuf:"bytes,2,opt,name=payload,proto3" json:"payload,omitempty"`
-	Timestamp            *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}               `json:"-"`
-	XXX_unrecognized     []byte                 `json:"-"`
-	XXX_sizecache        int32                  `json:"-"`
+	Domoid               string   `protobuf:"bytes,1,opt,name=Domoid,proto3" json:"Domoid,omitempty"`
+	Payload              string   `protobuf:"bytes,2,opt,name=payload,proto3" json:"payload,omitempty"`
+	Timestamp            string   `protobuf:"bytes,3,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *PostMsgReq) Reset()         { *m = PostMsgReq{} }
@@ -84,20 +83,20 @@ func (m *PostMsgReq) GetPayload() string {
 	return ""
 }
 
-func (m *PostMsgReq) GetTimestamp() *timestamppb.Timestamp {
+func (m *PostMsgReq) GetTimestamp() string {
 	if m != nil {
 		return m.Timestamp
 	}
-	return nil
+	return ""
 }
 
 // Domo post response message
 type PostMsgResp struct {
-	Msg                  string                 `protobuf:"bytes,1,opt,name=msg,proto3" json:"msg,omitempty"`
-	Timestamp            *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}               `json:"-"`
-	XXX_unrecognized     []byte                 `json:"-"`
-	XXX_sizecache        int32                  `json:"-"`
+	Msg                  string   `protobuf:"bytes,1,opt,name=msg,proto3" json:"msg,omitempty"`
+	Timestamp            string   `protobuf:"bytes,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *PostMsgResp) Reset()         { *m = PostMsgResp{} }
@@ -140,11 +139,11 @@ func (m *PostMsgResp) GetMsg() string {
 	return ""
 }
 
-func (m *PostMsgResp) GetTimestamp() *timestamppb.Timestamp {
+func (m *PostMsgResp) GetTimestamp() string {
 	if m != nil {
 		return m.Timestamp
 	}
-	return nil
+	return ""
 }
 
 func init() {
@@ -155,22 +154,20 @@ func init() {
 func init() { proto.RegisterFile("pb/domo.proto", fileDescriptor_6df02ec791369241) }
 
 var fileDescriptor_6df02ec791369241 = []byte{
-	// 230 bytes of a gzipped FileDescriptorProto
+	// 195 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x2d, 0x48, 0xd2, 0x4f,
-	0xc9, 0xcf, 0xcd, 0xd7, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0x2a, 0x48, 0x92, 0x92, 0x4f,
-	0xcf, 0xcf, 0x4f, 0xcf, 0x49, 0xd5, 0x07, 0x8b, 0x24, 0x95, 0xa6, 0xe9, 0x97, 0x64, 0xe6, 0xa6,
-	0x16, 0x97, 0x24, 0xe6, 0x16, 0x40, 0x14, 0x29, 0x55, 0x70, 0x71, 0x05, 0xe4, 0x17, 0x97, 0xf8,
-	0x16, 0xa7, 0x07, 0xa5, 0x16, 0x0a, 0x89, 0x71, 0xb1, 0xb9, 0xe4, 0xe7, 0xe6, 0x67, 0xa6, 0x48,
-	0x30, 0x2a, 0x30, 0x6a, 0x70, 0x06, 0x41, 0x79, 0x42, 0x12, 0x5c, 0xec, 0x05, 0x89, 0x95, 0x39,
-	0xf9, 0x89, 0x29, 0x12, 0x4c, 0x60, 0x09, 0x18, 0x57, 0xc8, 0x82, 0x8b, 0x13, 0x6e, 0xa4, 0x04,
-	0xb3, 0x02, 0xa3, 0x06, 0xb7, 0x91, 0x94, 0x1e, 0xc4, 0x52, 0x3d, 0x98, 0xa5, 0x7a, 0x21, 0x30,
-	0x15, 0x41, 0x08, 0xc5, 0x4a, 0x91, 0x5c, 0xdc, 0x70, 0x9b, 0x8b, 0x0b, 0x84, 0x04, 0xb8, 0x98,
-	0x73, 0x8b, 0xd3, 0xa1, 0xf6, 0x82, 0x98, 0xa8, 0x46, 0x33, 0x91, 0x60, 0xb4, 0x91, 0x35, 0x17,
-	0x37, 0xc8, 0xe1, 0xc1, 0xa9, 0x45, 0x65, 0x99, 0xc9, 0xa9, 0x42, 0x3a, 0x5c, 0xec, 0x50, 0x9b,
-	0x84, 0xf8, 0xf4, 0x0a, 0x92, 0xf4, 0x10, 0x1e, 0x96, 0xe2, 0x47, 0xe1, 0x17, 0x17, 0x28, 0x31,
-	0x38, 0x09, 0x9c, 0x78, 0x24, 0xc7, 0x78, 0xe1, 0x91, 0x1c, 0xe3, 0x83, 0x47, 0x72, 0x8c, 0x33,
-	0x1e, 0xcb, 0x31, 0x24, 0xb1, 0x81, 0x6d, 0x33, 0x06, 0x04, 0x00, 0x00, 0xff, 0xff, 0xc6, 0xc0,
-	0x0e, 0x01, 0x60, 0x01, 0x00, 0x00,
+	0xc9, 0xcf, 0xcd, 0xd7, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0x2a, 0x48, 0x52, 0x8a, 0xe1,
+	0xe2, 0x0a, 0xc8, 0x2f, 0x2e, 0xf1, 0x2d, 0x4e, 0x0f, 0x4a, 0x2d, 0x14, 0x12, 0xe3, 0x62, 0x73,
+	0xc9, 0xcf, 0xcd, 0xcf, 0x4c, 0x91, 0x60, 0x54, 0x60, 0xd4, 0xe0, 0x0c, 0x82, 0xf2, 0x84, 0x24,
+	0xb8, 0xd8, 0x0b, 0x12, 0x2b, 0x73, 0xf2, 0x13, 0x53, 0x24, 0x98, 0xc0, 0x12, 0x30, 0xae, 0x90,
+	0x0c, 0x17, 0x67, 0x49, 0x66, 0x6e, 0x6a, 0x71, 0x49, 0x62, 0x6e, 0x81, 0x04, 0x33, 0x58, 0x0e,
+	0x21, 0xa0, 0x64, 0xcb, 0xc5, 0x0d, 0x37, 0xbd, 0xb8, 0x40, 0x48, 0x80, 0x8b, 0x39, 0xb7, 0x38,
+	0x1d, 0x6a, 0x36, 0x88, 0x89, 0xaa, 0x9d, 0x09, 0x4d, 0xbb, 0x91, 0x35, 0x17, 0x37, 0xc8, 0x01,
+	0xc1, 0xa9, 0x45, 0x65, 0x99, 0xc9, 0xa9, 0x42, 0x3a, 0x5c, 0xec, 0x50, 0xd3, 0x84, 0xf8, 0xf4,
+	0x0a, 0x92, 0xf4, 0x10, 0x0e, 0x97, 0xe2, 0x47, 0xe1, 0x17, 0x17, 0x28, 0x31, 0x38, 0x09, 0x9c,
+	0x78, 0x24, 0xc7, 0x78, 0xe1, 0x91, 0x1c, 0xe3, 0x83, 0x47, 0x72, 0x8c, 0x33, 0x1e, 0xcb, 0x31,
+	0x24, 0xb1, 0x81, 0xbd, 0x6d, 0x0c, 0x08, 0x00, 0x00, 0xff, 0xff, 0xeb, 0xb1, 0x6a, 0x6b, 0x07,
+	0x01, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -277,15 +274,10 @@ func (m *PostMsgReq) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	if m.Timestamp != nil {
-		{
-			size, err := m.Timestamp.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintDomo(dAtA, i, uint64(size))
-		}
+	if len(m.Timestamp) > 0 {
+		i -= len(m.Timestamp)
+		copy(dAtA[i:], m.Timestamp)
+		i = encodeVarintDomo(dAtA, i, uint64(len(m.Timestamp)))
 		i--
 		dAtA[i] = 0x1a
 	}
@@ -330,15 +322,10 @@ func (m *PostMsgResp) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	if m.Timestamp != nil {
-		{
-			size, err := m.Timestamp.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintDomo(dAtA, i, uint64(size))
-		}
+	if len(m.Timestamp) > 0 {
+		i -= len(m.Timestamp)
+		copy(dAtA[i:], m.Timestamp)
+		i = encodeVarintDomo(dAtA, i, uint64(len(m.Timestamp)))
 		i--
 		dAtA[i] = 0x12
 	}
@@ -377,8 +364,8 @@ func (m *PostMsgReq) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovDomo(uint64(l))
 	}
-	if m.Timestamp != nil {
-		l = m.Timestamp.Size()
+	l = len(m.Timestamp)
+	if l > 0 {
 		n += 1 + l + sovDomo(uint64(l))
 	}
 	if m.XXX_unrecognized != nil {
@@ -397,8 +384,8 @@ func (m *PostMsgResp) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovDomo(uint64(l))
 	}
-	if m.Timestamp != nil {
-		l = m.Timestamp.Size()
+	l = len(m.Timestamp)
+	if l > 0 {
 		n += 1 + l + sovDomo(uint64(l))
 	}
 	if m.XXX_unrecognized != nil {
@@ -510,7 +497,7 @@ func (m *PostMsgReq) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Timestamp", wireType)
 			}
-			var msglen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowDomo
@@ -520,27 +507,23 @@ func (m *PostMsgReq) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				msglen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if msglen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthDomo
 			}
-			postIndex := iNdEx + msglen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthDomo
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.Timestamp == nil {
-				m.Timestamp = &timestamppb.Timestamp{}
-			}
-			if err := m.Timestamp.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
+			m.Timestamp = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -632,7 +615,7 @@ func (m *PostMsgResp) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Timestamp", wireType)
 			}
-			var msglen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowDomo
@@ -642,27 +625,23 @@ func (m *PostMsgResp) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				msglen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if msglen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthDomo
 			}
-			postIndex := iNdEx + msglen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthDomo
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.Timestamp == nil {
-				m.Timestamp = &timestamppb.Timestamp{}
-			}
-			if err := m.Timestamp.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
+			m.Timestamp = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex

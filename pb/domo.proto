@@ -1,7 +1,5 @@
 syntax = "proto3";
 
-import "google/protobuf/timestamp.proto";
-
 package pb;
 
 // Domo Service
@@ -13,11 +11,11 @@ service DomoService {
 message PostMsgReq {
     string Domoid = 1;
     string payload = 2;
-    google.protobuf.Timestamp timestamp = 3;
+    string timestamp = 3;
 }
 
 // Domo post response message
 message PostMsgResp {
     string msg = 1;
-    google.protobuf.Timestamp timestamp = 2;
+    string timestamp = 2;
 }
