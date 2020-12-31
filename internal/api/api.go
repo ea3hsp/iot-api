@@ -26,6 +26,6 @@ func (svc *service) PostMsg(ctx context.Context, req models.PostMsgReq) (models.
 	level.Info(logger).Log("msg", "posting message")
 	return models.PostMsgResp{
 		Msg:       "ok",
-		Timestamp: time.Time{},
+		Timestamp: time.Now().UTC(),
 	}, nil
 }

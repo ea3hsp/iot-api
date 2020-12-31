@@ -9,8 +9,9 @@ import (
 
 // EncodeGRPCPostMsg ...
 func EncodeGRPCPostMsg(ctx context.Context, r interface{}) (interface{}, error) {
-	return &pb.PostMsgResp{
-		Msg:       "",
+	return &pb.PostMsgReq{
+		Deviceid:  "",
+		Payload:   "",
 		Timestamp: time.Now().UTC().Format(time.RFC3339),
 	}, nil
 }

@@ -10,7 +10,7 @@ import (
 
 // DecodePostMsg decodes device msg device
 func DecodePostMsg(ctx context.Context, r *http.Request) (interface{}, error) {
-	var res models.PostMsgResp
+	var res models.PostMsgReq
 	json.NewDecoder(r.Body).Decode(&res)
 	return res, nil
 }

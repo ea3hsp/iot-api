@@ -58,13 +58,13 @@ func RunService() {
 			Subsystem: "api",
 			Name:      "request_count",
 			Help:      "Number of requests received.",
-		}, []string{"iotapi"}),
+		}, []string{"method"}),
 		kitprometheus.NewSummaryFrom(stdprometheus.SummaryOpts{
 			Namespace: "device",
 			Subsystem: "api",
 			Name:      "request_latency_seconds",
 			Help:      "Total duration of requests in seconds.",
-		}, []string{"iotapi"}),
+		}, []string{"method"}),
 	)
 	// creates device endpoints
 	endpoints := api.MakeEndpoints(srv)
@@ -73,7 +73,7 @@ func RunService() {
 	// creates REST API Server
 	go func() {
 		// banner
-		level.Info(logger).Log("msg", fmt.Sprintf("hermes device API listening: %s", cfg.HTTPBindAddr))
+		level.Info(logger).Log("msg", fmt.Sprintf("domo api worker API listening: %s", cfg.HTTPBindAddr))
 		// service http handler
 		hdl := httptransport.NewHTTPServer(ctx, endpoints)
 		// start http server
@@ -82,7 +82,7 @@ func RunService() {
 	// creates GRPC API Server
 	go func() {
 		// banner
-		level.Info(logger).Log("msg", fmt.Sprintf("hermes device GRPC API listening: %s", cfg.GRPCBindAddr))
+		level.Info(logger).Log("msg", fmt.Sprintf("domo api worker GRPC API listening: %s", cfg.GRPCBindAddr))
 		// creates tcp channel comunication
 		listener, err := net.Listen("tcp", cfg.GRPCBindAddr)
 		if err != nil {

@@ -9,7 +9,7 @@ service DomoService {
 
 // Domo post request message
 message PostMsgReq {
-    string Domoid = 1;
+    string deviceid = 1;
     string payload = 2;
     string timestamp = 3;
 }

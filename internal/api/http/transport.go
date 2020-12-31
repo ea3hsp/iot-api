@@ -37,13 +37,12 @@ func NewHTTPServer(ctx context.Context, endpoints api.Endpoints) http.Handler {
 	}))
 	// Routes
 	r.Route("/domo", func(r chi.Router) {
-		r.Post("/device", httptransport.NewServer(
+		r.Post("/", httptransport.NewServer(
 			endpoints.CreatePostMsg,
 			api.DecodePostMsg,
 			encodeResponse,
 			options...,
 		).ServeHTTP)
-
 	})
 	// prometheus metrics route and handler
 	r.Handle("/metrics", promhttp.Handler())
