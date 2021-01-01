@@ -16,8 +16,8 @@ type Endpoints struct {
 func MakeEndpoints(svc DomoService) Endpoints {
 	return Endpoints{
 		CreatePostMsg: func(ctx context.Context, request interface{}) (interface{}, error) {
-			req := request.(models.PostMsgReq)
-			return svc.PostMsg(ctx, req)
+			req := request.(models.PostTelemetryReq)
+			return svc.PostTelemetry(ctx, req)
 		},
 	}
 }

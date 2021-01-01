@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"fmt"
-	"net"
 	"net/http"
 	"os"
 	"os/signal"
@@ -11,15 +10,13 @@ import (
 
 	"github.com/ea3hsp/iot-api/configs"
 	"github.com/ea3hsp/iot-api/internal/api"
-	grpctransport "github.com/ea3hsp/iot-api/internal/api/grpc"
 	httptransport "github.com/ea3hsp/iot-api/internal/api/http"
-	"github.com/ea3hsp/iot-api/pb"
+	"github.com/ea3hsp/iot-api/internal/backend/mqtt"
+
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
 	kitprometheus "github.com/go-kit/kit/metrics/prometheus"
 	stdprometheus "github.com/prometheus/client_golang/prometheus"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
 )
 
 // RunService execute main function
@@ -44,10 +41,24 @@ func RunService() {
 		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
 		errs <- fmt.Errorf("%s", <-c)
 	}()
+	// create mqtt config
+	mqttCfg := mqtt.Config{
+		Brokers: []string{
+			cfg.MQTTBrokerAddr,
+		},
+		Username:  cfg.MQTTUser,
+		Password:  cfg.MQTTPass,
+		TLSConfig: nil,
+	}
+	// create mqtt backend
+	backend, err := mqtt.New(mqttCfg, logger)
+	if err != nil {
+
+	}
 	// creates service
 	var srv api.DomoService
 	{
-		srv = api.NewService(logger)
+		srv = api.NewService(backend, logger)
 	}
 	// loggging middleware attachment
 	srv = api.LoggingMiddleware(srv, logger)
@@ -78,25 +89,6 @@ func RunService() {
 		hdl := httptransport.NewHTTPServer(ctx, endpoints)
 		// start http server
 		http.ListenAndServe(cfg.HTTPBindAddr, hdl)
-	}()
-	// creates GRPC API Server
-	go func() {
-		// banner
-		level.Info(logger).Log("msg", fmt.Sprintf("domo api worker GRPC API listening: %s", cfg.GRPCBindAddr))
-		// creates tcp channel comunication
-		listener, err := net.Listen("tcp", cfg.GRPCBindAddr)
-		if err != nil {
-			errs <- err
-			return
-		}
-		// grpc server instance
-		gRPCServer := grpc.NewServer()
-		// register of grpc server reflection
-		reflection.Register(gRPCServer)
-		// registers rpc services
-		pb.RegisterDomoServiceServer(gRPCServer, grpctransport.NewGRPCServer(ctx, endpoints, logger))
-		// start service
-		errs <- gRPCServer.Serve(listener)
 	}()
 	level.Error(logger).Log("msg", fmt.Sprintf("exit %v", <-errs))
 }

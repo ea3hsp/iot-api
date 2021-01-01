@@ -2,15 +2,15 @@ package models
 
 import "time"
 
-// PostMsgReq post message request
-type PostMsgReq struct {
+// PostTelemetryReq post message request
+type PostTelemetryReq struct {
 	DeviceID  string    `json:"deviceid"`
 	Payload   string    `json:"payload"`
 	Timestamp time.Time `json:"timestamp"`
 }
 
-// PostMsgResp post message response
-type PostMsgResp struct {
+// PostTelemetryResp post message response
+type PostTelemetryResp struct {
 	Msg       string    `json:"msg"`
 	Timestamp time.Time `json:"timestamp"`
 }

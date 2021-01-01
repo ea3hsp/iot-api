@@ -8,14 +8,9 @@ import (
 	"github.com/ea3hsp/iot-api/internal/models"
 )
 
-// DecodePostMsg decodes device msg device
-func DecodePostMsg(ctx context.Context, r *http.Request) (interface{}, error) {
-	var res models.PostMsgReq
+// DecodeTelemetry decodes http rest api post messages
+func DecodeTelemetry(ctx context.Context, r *http.Request) (interface{}, error) {
+	var res models.PostTelemetryReq
 	json.NewDecoder(r.Body).Decode(&res)
 	return res, nil
-}
-
-// DecodeGRPCPostMsg ...
-func DecodeGRPCPostMsg(ctx context.Context, r interface{}) (interface{}, error) {
-	return models.PostMsgReq{}, nil
 }

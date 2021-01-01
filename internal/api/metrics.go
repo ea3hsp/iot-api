@@ -23,10 +23,10 @@ func MetricsMiddleware(svc DomoService, counter metrics.Counter, latency metrics
 	}
 }
 
-func (mm *metricsMiddleware) PostMsg(ctx context.Context, req models.PostMsgReq) (models.PostMsgResp, error) {
+func (mm *metricsMiddleware) PostTelemetry(ctx context.Context, req models.PostTelemetryReq) (models.PostTelemetryResp, error) {
 	defer func(begin time.Time) {
-		mm.counter.With("method", "CreateDevice").Add(1)
-		mm.latency.With("method", "CreateDevice").Observe(time.Since(begin).Seconds())
+		mm.counter.With("method", "PostTelemetry").Add(1)
+		mm.latency.With("method", "PostTelemetry").Observe(time.Since(begin).Seconds())
 	}(time.Now())
-	return mm.svc.PostMsg(ctx, req)
+	return mm.svc.PostTelemetry(ctx, req)
 }

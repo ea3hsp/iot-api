@@ -8,5 +8,5 @@ import (
 
 // DomoService domo api definition
 type DomoService interface {
-	PostMsg(ctx context.Context, req models.PostMsgReq) (models.PostMsgResp, error)
+	PostTelemetry(ctx context.Context, req models.PostTelemetryReq) (models.PostTelemetryResp, error)
 }

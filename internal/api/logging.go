@@ -20,7 +20,7 @@ func LoggingMiddleware(svc DomoService, logger log.Logger) DomoService {
 	return &loggingMiddleware{logger, svc}
 }
 
-func (lm *loggingMiddleware) PostMsg(ctx context.Context, req models.PostMsgReq) (res models.PostMsgResp, err error) {
+func (lm *loggingMiddleware) PostTelemetry(ctx context.Context, req models.PostTelemetryReq) (res models.PostTelemetryResp, err error) {
 	defer func(begin time.Time) {
 		message := fmt.Sprintf("Method PostMsg took %s to complete", time.Since(begin))
 		if err != nil {
@@ -29,5 +29,5 @@ func (lm *loggingMiddleware) PostMsg(ctx context.Context, req models.PostMsgReq)
 		}
 		level.Info(lm.logger).Log("msg", fmt.Sprintf("%s without errors.", message))
 	}(time.Now())
-	return lm.svc.PostMsg(ctx, req)
+	return lm.svc.PostTelemetry(ctx, req)
 }

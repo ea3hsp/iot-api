@@ -39,7 +39,7 @@ func NewHTTPServer(ctx context.Context, endpoints api.Endpoints) http.Handler {
 	r.Route("/domo", func(r chi.Router) {
 		r.Post("/", httptransport.NewServer(
 			endpoints.CreatePostMsg,
-			api.DecodePostMsg,
+			api.DecodeTelemetry,
 			encodeResponse,
 			options...,
 		).ServeHTTP)
