@@ -9,13 +9,13 @@ import (
 
 // Endpoints endpoints definions
 type Endpoints struct {
-	CreatePostMsg endpoint.Endpoint
+	CreateTelemetry endpoint.Endpoint
 }
 
 // MakeEndpoints creates enpoints logic
 func MakeEndpoints(svc DomoService) Endpoints {
 	return Endpoints{
-		CreatePostMsg: func(ctx context.Context, request interface{}) (interface{}, error) {
+		CreateTelemetry: func(ctx context.Context, request interface{}) (interface{}, error) {
 			req := request.(models.PostTelemetryReq)
 			return svc.PostTelemetry(ctx, req)
 		},

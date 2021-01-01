@@ -6,6 +6,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/ea3hsp/iot-api/internal/models"
 	paho "github.com/eclipse/paho.mqtt.golang"
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
@@ -146,9 +147,9 @@ func (c *MQTT) publish(topic string, payload []byte) paho.Token {
 }
 
 // PublishTelemetry publish telemetry message
-func (c *MQTT) PublishTelemetry(msg []byte) error {
-	topic := fmt.Sprintf(TelemetryTopicFormat, c.cfg.Username)
-	token := c.publish(topic, msg)
+func (c *MQTT) PublishTelemetry(msg *models.PostTelemetryReq) error {
+	topic := fmt.Sprintf(TelemetryTopicFormat, msg.DeviceID)
+	token := c.publish(topic, []byte(msg.Payload))
 	go func() {
 		token.Wait()
 		if err := token.Error(); err != nil {

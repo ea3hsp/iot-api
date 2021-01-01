@@ -2,6 +2,7 @@ package api
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/ea3hsp/iot-api/internal/backend"
@@ -26,7 +27,11 @@ func NewService(backend backend.DomoBackend, logger log.Logger) DomoService {
 func (svc *service) PostTelemetry(ctx context.Context, req models.PostTelemetryReq) (models.PostTelemetryResp, error) {
 	// creates logger
 	logger := log.With(svc.logger, "method", "PostMsg")
-	level.Info(logger).Log("msg", "posting message")
+	err := svc.backend.PublishTelemetry(&req)
+	if err != nil {
+		return models.PostTelemetryResp{}, err
+	}
+	level.Info(logger).Log("msg", fmt.Sprintf("posting telemetry from device=%s", req.DeviceID))
 	return models.PostTelemetryResp{
 		Msg:       "ok",
 		Timestamp: time.Now().UTC(),
