@@ -76,9 +76,11 @@ func New(config Config, logger log.Logger) (*MQTT, error) {
 	if config.TLSConfig != nil {
 		mqttOpts.SetTLSConfig(config.TLSConfig)
 	}
-	mqttOpts.SetClientID("domo-router")
+	mqttOpts.SetClientID("domo-api-worker")
+
 	mqttOpts.SetUsername(config.Username)
 	mqttOpts.SetPassword(config.Password)
+
 	mqttOpts.SetKeepAlive(30 * time.Second)
 	mqttOpts.SetPingTimeout(10 * time.Second)
 	mqttOpts.SetCleanSession(true)
@@ -93,7 +95,6 @@ func New(config Config, logger log.Logger) (*MQTT, error) {
 		reconnecting = true
 	})
 	mqttOpts.SetOnConnectHandler(func(_ paho.Client) {
-		level.Info(mqtt.logger).Log("msg", "Mqtt connected")
 		if reconnecting {
 			mqtt.resubscribe()
 			reconnecting = false
@@ -108,7 +109,6 @@ func New(config Config, logger log.Logger) (*MQTT, error) {
 func (c *MQTT) Connect() error {
 	var err error
 	for retries := 0; retries < ConnectRetries; retries++ {
-
 		token := c.client.Connect()
 		finished := token.WaitTimeout(1 * time.Second)
 		if !finished {
@@ -125,11 +125,13 @@ func (c *MQTT) Connect() error {
 	if err != nil {
 		return fmt.Errorf("Could not connect to MQTT (%s)", err)
 	}
+
 	return err
 }
 
 // Disconnect from MQTT
 func (c *MQTT) Disconnect() error {
+	level.Warn(c.logger).Log("msg", "mqtt broker disconnecting")
 	c.client.Disconnect(100)
 	return nil
 }
@@ -153,7 +155,7 @@ func (c *MQTT) PublishTelemetry(msg *models.PostTelemetryReq) error {
 	go func() {
 		token.Wait()
 		if err := token.Error(); err != nil {
-			level.Warn(c.logger).Log("msg", "could not publish telemetry message")
+			level.Warn(c.logger).Log("msg", fmt.Sprintf("could not publish telemetry message topic=%s device=%s err=%s", topic, msg.DeviceID, err.Error()))
 			return
 		}
 		level.Info(c.logger).Log("msg", "published telemetry message")

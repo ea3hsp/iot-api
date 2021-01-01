@@ -53,7 +53,8 @@ func RunService() {
 	// create mqtt backend
 	backend, err := mqtt.New(mqttCfg, logger)
 	if err != nil {
-
+		level.Error(logger).Log("msg", fmt.Sprintf("create backend error=%s", err.Error()))
+		os.Exit(1)
 	}
 	// creates service
 	var srv api.DomoService
@@ -91,4 +92,5 @@ func RunService() {
 		http.ListenAndServe(cfg.HTTPBindAddr, hdl)
 	}()
 	level.Error(logger).Log("msg", fmt.Sprintf("exit %v", <-errs))
+	backend.Disconnect()
 }

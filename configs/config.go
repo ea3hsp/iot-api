@@ -15,7 +15,7 @@ const (
 	// Environment variable names
 	envProcName     = "PROC_NAME"
 	envHTTPBindAddr = "HTTP_BIND_ADDR"
-	envMqttAddr     = "MQTT_BROKER_ADDRESS"
+	envMqttAddr     = "MQTT_ADDRESS"
 	envMqttUser     = "MQTT_USER"
 	envMqttPass     = "MQTT_PASS"
 )
