@@ -11,9 +11,10 @@ import (
 
 	"github.com/ea3hsp/iot-api/configs"
 	"github.com/ea3hsp/iot-api/internal/api"
-	"github.com/ea3hsp/iot-api/internal/backend/mqtt"
-
 	httptransport "github.com/ea3hsp/iot-api/internal/api/http"
+	"github.com/ea3hsp/iot-api/internal/backend/mqtt"
+	basicauth "github.com/go-kit/kit/auth/basic"
+	"github.com/go-kit/kit/endpoint"
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
 	kitprometheus "github.com/go-kit/kit/metrics/prometheus"
@@ -90,8 +91,11 @@ func RunService() {
 			Help:      "Total duration of requests in seconds.",
 		}, []string{"method"}),
 	)
+	var middlewares []endpoint.Middleware
+	auth := basicauth.AuthMiddleware("admin", "hermes", "myrealm")
+	middlewares = append(middlewares, auth)
 	// creates device endpoints
-	endpoints := api.MakeEndpoints(srv)
+	endpoints := api.MakeEndpoints(srv, middlewares)
 	// services context
 	ctx := context.Background()
 	// creates REST API Server
