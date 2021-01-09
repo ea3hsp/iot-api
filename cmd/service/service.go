@@ -122,15 +122,17 @@ func RunService() {
 		level.Error(logger).Log("msg", fmt.Sprintf("Can't listen: %s", err.Error()))
 		os.Exit(1)
 	}
+	// banner
+	level.Info(logger).Log("msg", fmt.Sprintf("domo api worker API listening: %s", cfg.HTTPBindAddr))
 	// service http handler
 	hdl := httptransport.NewHTTPServer(ctx, endpoints)
 	// set server params
 	server := http.Server{
 		Handler:           hdl,
-		ReadTimeout:       0,
-		ReadHeaderTimeout: 0,
-		WriteTimeout:      0,
-		IdleTimeout:       0,
+		ReadTimeout:       1 * time.Second,
+		WriteTimeout:      1 * time.Second,
+		IdleTimeout:       30 * time.Second,
+		ReadHeaderTimeout: 2 * time.Second,
 	}
 	//
 	go func() {
