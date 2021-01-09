@@ -8,7 +8,7 @@ const (
 	// Default config definitions
 	defProcName     = "iot-api-worker"
 	defHTTPBindAddr = "0.0.0.0:5000"
-	defMqttAddr     = "tcp://mosquitto:1883"
+	defMqttAddr     = "tcp://localhost:1883"
 	defMqttUser     = ""
 	defMqttPass     = ""
 
