@@ -3,6 +3,7 @@ package mqtt
 import (
 	"crypto/tls"
 	"fmt"
+	"hash/fnv"
 	"sync"
 	"time"
 
@@ -64,6 +65,14 @@ type MQTT struct {
 	cfg           Config
 }
 
+func clientID() string {
+	t := time.Now().String()
+	h := fnv.New32a()
+	h.Write([]byte(t))
+	r := fmt.Sprintf("%x", h.Sum32())
+	return r
+}
+
 // New returns a new MQTT
 func New(config Config, logger log.Logger) (*MQTT, error) {
 	mqtt := new(MQTT)
@@ -76,7 +85,7 @@ func New(config Config, logger log.Logger) (*MQTT, error) {
 	if config.TLSConfig != nil {
 		mqttOpts.SetTLSConfig(config.TLSConfig)
 	}
-	mqttOpts.SetClientID("domo-api-worker")
+	mqttOpts.SetClientID(fmt.Sprintf("domo-api-worker-%s", clientID()))
 
 	mqttOpts.SetUsername(config.Username)
 	mqttOpts.SetPassword(config.Password)
