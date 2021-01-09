@@ -37,10 +37,7 @@ func RunService() {
 			"caller", log.DefaultCaller,
 		)
 	}
-	pidFile := fmt.Sprintf("%s.pid", cfg.ProcessName)
-	upg, err := tableflip.New(tableflip.Options{
-		PIDFile: pidFile,
-	})
+	upg, err := tableflip.New(tableflip.Options{})
 	if err != nil {
 		panic(err)
 	}
@@ -56,13 +53,6 @@ func RunService() {
 			}
 		}
 	}()
-	// //
-	// errs := make(chan error)
-	// go func() {
-	// 	c := make(chan os.Signal)
-	// 	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
-	// 	errs <- fmt.Errorf("%s", <-c)
-	// }()
 	// create mqtt config
 	mqttCfg := mqtt.Config{
 		Brokers: []string{
@@ -104,17 +94,6 @@ func RunService() {
 	endpoints := api.MakeEndpoints(srv)
 	// services context
 	ctx := context.Background()
-
-	// // creates REST API Server
-	// go func() {
-	// 	// banner
-	// 	level.Info(logger).Log("msg", fmt.Sprintf("domo api worker API listening: %s", cfg.HTTPBindAddr))
-	// 	// service http handler
-	// 	hdl := httptransport.NewHTTPServer(ctx, endpoints)
-	// 	// start http server
-	// 	http.ListenAndServe(cfg.HTTPBindAddr, hdl)
-	// }()
-
 	// creates REST API Server
 	// Listen must be called before Ready
 	ln, err := upg.Listen("tcp", cfg.HTTPBindAddr)
@@ -134,7 +113,7 @@ func RunService() {
 		IdleTimeout:       30 * time.Second,
 		ReadHeaderTimeout: 2 * time.Second,
 	}
-	//
+	// http server go routine
 	go func() {
 		// start http server
 		server.Serve(ln)
