@@ -11,8 +11,8 @@ const (
 	defMqttAddr     = "tcp://localhost:1883"
 	defMqttUser     = ""
 	defMqttPass     = ""
-	defAPIUser      = "domo"
-	defAPIPass      = "Zup3rsecr3T!"
+	defAPIUser      = ""
+	defAPIPass      = ""
 
 	// Environment variable names
 	envProcName     = "PROC_NAME"
@@ -31,6 +31,8 @@ type Config struct {
 	MQTTBrokerAddr string
 	MQTTUser       string
 	MQTTPass       string
+	APIUser        string
+	APIPass        string
 }
 
 // env get environment variable or fallback to default one
@@ -49,5 +51,7 @@ func LoadConfig() *Config {
 		MQTTBrokerAddr: env(envMqttAddr, defMqttAddr),
 		MQTTUser:       env(envMqttUser, defMqttUser),
 		MQTTPass:       env(envMqttPass, defMqttPass),
+		APIUser:        env(envAPIUser, defAPIUser),
+		APIPass:        env(envAPIPass, defAPIPass),
 	}
 }
