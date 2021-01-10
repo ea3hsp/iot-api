@@ -140,7 +140,3 @@ func RunService() {
 	//level.Error(logger).Log("msg", fmt.Sprintf("exit %v", <-errs))
 	backend.Disconnect()
 }
-
-func passedValidation(ctx context.Context, request interface{}) (response interface{}, err error) {
-	return true, nil
-}
