@@ -92,7 +92,7 @@ func RunService() {
 		}, []string{"method"}),
 	)
 	var middlewares []endpoint.Middleware
-	auth := basicauth.AuthMiddleware("polla", "hermes", "myrealm")
+	auth := basicauth.AuthMiddleware(cfg.APIUser, cfg.APIPass, "iot domo realm")
 	middlewares = append(middlewares, auth)
 	// creates device endpoints
 	endpoints := api.MakeEndpoints(srv, middlewares)
