@@ -19,6 +19,7 @@ import (
 func NewHTTPServer(ctx context.Context, endpoints api.Endpoints) http.Handler {
 	options := []httptransport.ServerOption{
 		httptransport.ServerErrorEncoder(encodeError),
+		httptransport.ServerBefore(httptransport.PopulateRequestContext),
 	}
 	// creates new router
 	r := chi.NewRouter()

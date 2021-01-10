@@ -92,7 +92,7 @@ func RunService() {
 		}, []string{"method"}),
 	)
 	var middlewares []endpoint.Middleware
-	auth := basicauth.AuthMiddleware("admin", "hermes", "myrealm")
+	auth := basicauth.AuthMiddleware("polla", "hermes", "myrealm")
 	middlewares = append(middlewares, auth)
 	// creates device endpoints
 	endpoints := api.MakeEndpoints(srv, middlewares)
@@ -139,4 +139,8 @@ func RunService() {
 	server.Shutdown(context.Background())
 	//level.Error(logger).Log("msg", fmt.Sprintf("exit %v", <-errs))
 	backend.Disconnect()
+}
+
+func passedValidation(ctx context.Context, request interface{}) (response interface{}, err error) {
+	return true, nil
 }

@@ -11,6 +11,8 @@ const (
 	defMqttAddr     = "tcp://localhost:1883"
 	defMqttUser     = ""
 	defMqttPass     = ""
+	defAPIUser      = "domo"
+	defAPIPass      = "Zup3rsecr3T!"
 
 	// Environment variable names
 	envProcName     = "PROC_NAME"
@@ -18,6 +20,8 @@ const (
 	envMqttAddr     = "MQTT_ADDRESS"
 	envMqttUser     = "MQTT_USER"
 	envMqttPass     = "MQTT_PASS"
+	envAPIUser      = "API_USER"
+	envAPIPass      = "API_PASS"
 )
 
 // Config config struct definition
